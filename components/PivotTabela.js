@@ -285,7 +285,7 @@ export default function PivotTabela({
           onClick={exportToExcelWithExcelJS}
           className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition-all duration-300 mt-8"
         >
-          Izvozi v Excel (ExcelJS)
+          Izvozi v Excel
         </button>
       </div>
     </div>
