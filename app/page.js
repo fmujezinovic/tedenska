@@ -14,50 +14,56 @@ export default function Home() {
 
   return (
     <DataProvider>
-      <div className="flex flex-col items-center justify-center min-h-screen gap-4 p-8">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-8">
         {!prikaziTabele ? (
-          <>
-            <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-8">
-              <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-                <h1 className="text-xl font-semibold text-gray-800 mb-6 text-center">
-                  Izberi mesec in leto za izdelavo tedenskih delovišč
-                </h1>
+          <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md text-center">
+            {/* Ikona */}
+            <img
+              src="/ikona.png"
+              alt="Ikona"
+              className="w-16 h-16 mx-auto mb-4"
+            />
 
-                <div className="flex flex-col mb-4">
-                  <label className="text-gray-700 mb-1">Mesec</label>
-                  <input
-                    type="number"
-                    value={mesec}
-                    onChange={(e) => setMesec(Number(e.target.value))}
-                    className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  />
-                </div>
+            {/* Naslov */}
+            <h1 className="text-xl font-semibold text-gray-800 mb-6">
+              Izberi mesec in leto za izdelavo tedenskih delovišč
+            </h1>
 
-                <div className="flex flex-col mb-6">
-                  <label className="text-gray-700 mb-1">Leto</label>
-                  <input
-                    type="number"
-                    value={leto}
-                    onChange={(e) => setLeto(Number(e.target.value))}
-                    className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  />
-                </div>
-
-                <button
-                  onClick={() => setPrikaziTabele(true)}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded transition duration-300"
-                >
-                  Potrdi
-                </button>
-              </div>
+            {/* Preostali del forme */}
+            <div className="flex flex-col mb-4">
+              <label className="text-gray-700 mb-1">Mesec</label>
+              <input
+                type="number"
+                value={mesec}
+                onChange={(e) => setMesec(Number(e.target.value))}
+                className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
             </div>
-          </>
+
+            <div className="flex flex-col mb-6">
+              <label className="text-gray-700 mb-1">Leto</label>
+              <input
+                type="number"
+                value={leto}
+                onChange={(e) => setLeto(Number(e.target.value))}
+                className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
+            </div>
+
+            <button
+              onClick={() => setPrikaziTabele(true)}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded transition duration-300"
+            >
+              Potrdi
+            </button>
+          </div>
         ) : (
-          <>
-            <h1 className="text-3xl font-bold text-blue-800 mb-6">
+          <div className="w-full px-4">
+            <h1 className="text-3xl font-bold text-blue-800 mb-6 text-center">
               Vnesi podatke v tabele dežurstev in oddelkov ter avtomatsko
               ustvari tedenska delovišča
             </h1>
+
             {Object.keys(sections).map((nazivSekcije, index) => (
               <Tabela
                 key={nazivSekcije}
@@ -68,9 +74,10 @@ export default function Home() {
               />
             ))}
 
-            <h1 className="text-3xl font-bold text-blue-800 mb-6">
+            <h1 className="text-3xl font-bold text-blue-800 mb-6 text-center">
               Tedenska delovišča
             </h1>
+
             <PivotTabela
               mesec={mesec}
               leto={leto}
@@ -78,7 +85,7 @@ export default function Home() {
               workplaceMapping={workplaceMapping}
               workplaces={workplaces}
             />
-          </>
+          </div>
         )}
       </div>
     </DataProvider>
