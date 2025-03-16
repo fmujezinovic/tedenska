@@ -1,103 +1,76 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import { DataProvider } from "@/context/DataContext";
+import Tabela from "@/components/Tabela";
+import PivotTabela from "@/components/PivotTabela";
+import { sections } from "@/config/config";
+import { workplaces, workplaceMapping } from "@/config/workplaces";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [mesec, setMesec] = useState(1);
+  const [leto, setLeto] = useState(2024);
+  const [prikaziTabele, setPrikaziTabele] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  return (
+    <DataProvider>
+      <div className="flex flex-col items-center justify-center min-h-screen gap-4 p-8">
+        {!prikaziTabele ? (
+          <>
+            <div className="flex flex-col">
+              <label>Mesec</label>
+              <input
+                type="number"
+                value={mesec}
+                onChange={(e) => setMesec(Number(e.target.value))}
+                className="border p-2"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label>Leto</label>
+              <input
+                type="number"
+                value={leto}
+                onChange={(e) => setLeto(Number(e.target.value))}
+                className="border p-2"
+              />
+            </div>
+            <button
+              onClick={() => setPrikaziTabele(true)}
+              className="bg-blue-600 text-white px-4 py-2 rounded"
+            >
+              Potrdi
+            </button>
+          </>
+        ) : (
+          <>
+            <h1 className="text-3xl font-bold text-blue-800 mb-6">
+              Vnesi podatke v tabele dežurstev in oddelkov ter avtomatsko
+              ustvari tedenska delovišča
+            </h1>
+            {Object.keys(sections).map((nazivSekcije, index) => (
+              <Tabela
+                key={nazivSekcije}
+                stolpci={sections[nazivSekcije]}
+                mesec={mesec}
+                leto={leto}
+                naziv={nazivSekcije}
+              />
+            ))}
+
+            <h1 className="text-3xl font-bold text-blue-800 mb-6">
+              Tedenska delovišča
+            </h1>
+            <PivotTabela
+              mesec={mesec}
+              leto={leto}
+              sections={sections}
+              workplaceMapping={workplaceMapping}
+              workplaces={workplaces}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          </>
+        )}
+      </div>
+    </DataProvider>
   );
 }

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",           // <-- To je ključ!
     "paths": {
       "@/*": ["./*"]
     }
